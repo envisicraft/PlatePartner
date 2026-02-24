@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --parchment: #E8D4A9;
+    --desk-bg: #DBC8A0;
+    --paper-texture: url('https://www.transparenttextures.com/patterns/natural-paper.png');
+}
+
+body {
+    margin: 0;
+    background-color: var(--desk-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+.parchment-root {
+    background-color: var(--parchment);
+    background-image: var(--paper-texture);
+    background-repeat: repeat;
+}
+
+@keyframes pulse-pencil {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 0px #E2725B);
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 10px rgba(226, 114, 91, 0.5));
+    }
+}
+
+.animate-pulse-custom {
+    animation: pulse-pencil 2s infinite ease-in-out;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.preserve-3d {
+    transform-style: preserve-3d;
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+    transform: rotateY(180deg);
+}

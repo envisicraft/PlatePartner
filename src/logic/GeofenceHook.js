@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { db, stapleVisitEvent } from './db';
 
 /**
  * Project: Dining Architect - Geofence Logic
@@ -21,7 +22,7 @@ const calculateDistanceInMeters = (lat1, lon1, lat2, lon2) => {
     return R * c;
 };
 
-export const useGeofence = (targetLat, targetLon, dwellTimeMs, onDwellTriggered) => {
+export const useGeofence = (targetLat, targetLon, targetPlaceId, targetPlaceName, dwellTimeMs) => {
     const [isTracking, setIsTracking] = useState(false);
     const [currentDistance, setCurrentDistance] = useState(null);
     const dwellTimer = useRef(null);
@@ -45,14 +46,27 @@ export const useGeofence = (targetLat, targetLon, dwellTimeMs, onDwellTriggered)
                 setCurrentDistance(Math.round(distance));
                 console.log(`Current Distance to target: ${Math.round(distance)} meters`);
 
-                // Geofence Radius: 100 meters
-                if (distance <= 100) {
+                // Geofence Radius: 50 meters (As per Master Spec)
+                if (distance <= 50) {
                     if (!dwellTimer.current) {
-                        console.log("Entered geofence. Starting dwell timer...");
+                        console.log(`[Stapler] Entered ${targetPlaceName} geofence. Starting ${dwellTimeMs / 1000}s dwell timer...`);
+
                         // Start the silent countdown
-                        dwellTimer.current = setTimeout(() => {
-                            console.log("Dwell time satisfied! Triggering Probable Visit.");
-                            onDwellTriggered();
+                        dwellTimer.current = setTimeout(async () => {
+                            console.log(`[Stapler] Dwell time satisfied! Triggering Ghost Log for ${targetPlaceName}.`);
+
+                            // 1. Ensure Anchor location exists (incase GPS caught them at a new place)
+                            await db.locations.put({
+                                place_id: targetPlaceId,
+                                name: targetPlaceName,
+                                latitude: targetLat,
+                                longitude: targetLon
+                            });
+
+                            // 2. Fire the core Database Logic (which handles the 120-min bundling rule)
+                            const bundleId = await stapleVisitEvent({ place_id: targetPlaceId });
+                            console.log(`[Stapler] Bundle ${bundleId} updated/created!`);
+
                         }, dwellTimeMs);
                     }
                 } else {

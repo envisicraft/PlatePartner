@@ -12,7 +12,7 @@ const TheSweep = ({ ghostLogs, onClose, onDeleteLog, onFinalizeLog }) => {
     const innerFold = "shadow-[inset_2px_4px_12px_rgba(0,0,0,0.1)]";
 
     return (
-        <div className="h-full w-full parchment-root flex flex-col p-6 animate-in slide-in-from-bottom duration-500">
+        <div className="h-full w-full parchment-root flex flex-col p-6 animate-in slide-in-from-bottom duration-[600ms]">
             {/* 1. RESTORED HEADER */}
             <header className="flex justify-between items-center mb-8 mt-6">
                 <div>

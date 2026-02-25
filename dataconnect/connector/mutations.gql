@@ -1,0 +1,17 @@
+# mutations.gql
+mutation CreateVisitLog(
+  $visitId: UUID!
+  $locationId: UUID!
+  $timestampIn: Int!
+  $status: String!
+  $isGhost: Boolean!
+) @auth(level: PUBLIC) {
+  visitLog_insert(data: {
+    visitId: $visitId
+    locationId: $locationId
+    timestampIn: $timestampIn
+    status: $status
+    isGhost: $isGhost
+    userId: "temporary-user-id" # Will use auth.uid later
+  })
+}

@@ -1,0 +1,7 @@
+# connector.yaml
+connectorId: platepartner-connector
+authMode: PUBLIC # We'll swap to USER later when Auth is fully implemented
+generate:
+  javascriptSdk:
+    outputDir: "../../src/dataconnect"
+    package: "@platepartner/dataconnect"

@@ -1,0 +1,22 @@
+# queries.gql
+query GetVisitLogById($id: UUID!) @auth(level: PUBLIC) {
+  visitLog(id: $id) {
+    visitId
+    ratingScore
+    futureMeTip
+    location {
+      name
+      address
+    }
+  }
+}
+
+query ListMyPlates @auth(level: PUBLIC) {
+  visitLogs {
+    visitId
+    ratingScore
+    location {
+      name
+    }
+  }
+}

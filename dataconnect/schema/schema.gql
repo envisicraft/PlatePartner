@@ -1,0 +1,50 @@
+# Data_Pantry: "The Vault" Cloud Schema
+# Maps directly to the local Dexie.js offline architecture.
+
+type User @table {
+  id: String! @default(expr: "auth.uid")
+  username: String! @col(dataType: "varchar(50)")
+  isMasterBuilder: Boolean! @default(value: false) # Tier support
+}
+
+# The Anchor
+type Location @table {
+  placeId: UUID! @default(expr: "uuidV4()")
+  name: String!
+  latitude: Float
+  longitude: Float
+  address: String
+}
+
+# The Bundle
+type VisitLog @table {
+  visitId: UUID! @default(expr: "uuidV4()")
+  location: Location! # Foreign Key
+  timestampIn: Int! # Unix Epoch
+  timestampOut: Int # Unix Epoch
+  weatherMd: String # JSON string
+  status: String! @col(dataType: "varchar(20)") # PENDING_POLISH, VAULTED, COLD_STORAGE
+  ratingScore: Int # 1-5
+  futureMeTip: String @col(dataType: "varchar(280)")
+  vibeStamps: String # JSON Array
+  isGhost: Boolean! @default(value: false)
+  user: User! # Foreign Key
+}
+
+# The Extraction
+type DishItem @table {
+  itemId: UUID! @default(expr: "uuidV4()")
+  visitLog: VisitLog! # Foreign Key
+  name: String!
+  price: Float
+  sourceReceiptId: String # Links to MediaAsset
+}
+
+# The Stack
+type MediaAsset @table {
+  assetId: UUID! @default(expr: "uuidV4()")
+  visitLog: VisitLog! # Foreign Key
+  cloudUri: String! # Firebase Storage URL
+  type: String! @col(dataType: "varchar(10)") # PHOTO or RECEIPT
+  timestamp: Int! 
+}

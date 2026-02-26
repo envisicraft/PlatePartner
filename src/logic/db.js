@@ -113,12 +113,14 @@ export async function savePlate(mealData) {
         place_id: placeId,
         timestamp_in: Date.now(), // Real apps would parse mealData.date
         status: 'POLISHED', // Since it was saved via the Editor
-        rating_score: mealData.placeRating !== undefined ? mealData.placeRating : mealData.rating,
-        is_ghost: false,
+        rating_score: mealData.rating || 0,
+        is_ghost: mealData.rating === 0,
+        hasAppliedData: mealData.hasAppliedData || false,
 
         // UI specific fields that we chuck in the bundle for the prototype
         userIds: mealData.userIds || ['JD'],
         ui_date_string: mealData.date,
+        placeRating: mealData.placeRating || 0,
         primaryStyle: mealData.primaryStyle,
         notes: mealData.notes,
         petFriendly: mealData.petFriendly
@@ -170,11 +172,12 @@ export async function getAllPlates() {
             userIds: v.userIds || ['JD'],
             dish: dishes.length > 0 ? dishes[0].name : 'Unknown Dish',
             place: loc ? loc.name : 'Unknown Location',
-            rating: dishes.length > 0 ? dishes[0].rating : 0, // Fallback if no dish rating
-            placeRating: v.rating_score || 0,
+            rating: v.rating_score || 0,
+            placeRating: v.placeRating || 0,
             img: media.length > 0 ? media[0].url : null,
             date: v.ui_date_string || '2026-02-23', // Hardcoded fallback date for prototype ease
-            isGhost: v.is_ghost,
+            isGhost: v.is_ghost || v.rating_score === 0,
+            hasAppliedData: v.hasAppliedData || false,
             primaryStyle: v.primaryStyle,
             notes: v.notes,
             petFriendly: v.petFriendly

@@ -62,3 +62,41 @@ body {
 .rotate-y-180 {
     transform: rotateY(180deg);
 }
+
+/* Parchment-styled date picker inputs */
+input[type="date"] {
+    color-scheme: light;
+    font-family: inherit;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(0.4);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 4px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: invert(0.2);
+    background-color: rgba(0,0,0,0.05);
+}
+
+/* Animated expand for custom date range */
+.date-range-enter {
+    animation: dateRangeSlideDown 600ms ease-out forwards;
+}
+
+@keyframes dateRangeSlideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-8px);
+        margin-top: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 200px;
+        transform: translateY(0);
+        margin-top: 0.5rem;
+    }
+}

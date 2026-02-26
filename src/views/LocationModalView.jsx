@@ -1,5 +1,6 @@
 import React from 'react';
 import { IconX, IconMapPin, IconStar, IconPawPrint, IconCamera, IconReceipt } from '../Icons';
+import { formatDate } from './Shared';
 
 export const LocationModalView = ({ locationCard, onClose, availableAvatars }) => {
     const isPetFriendly = locationCard?.petFriendly || false;
@@ -7,7 +8,7 @@ export const LocationModalView = ({ locationCard, onClose, availableAvatars }) =
     const communityRating = locationCard ? Math.max(1, (locationCard.placeRating - 0.4).toFixed(1)) : 4.5;
 
     return (
-        <div className="absolute inset-0 z-[4000] flex flex-col bg-[#E8D4A9] animate-in slide-in-from-bottom duration-[600ms] overflow-hidden" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
+        <div className="absolute inset-0 z-[4000] flex flex-col bg-[#E8D4A9] overflow-hidden" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
             {/* Header */}
             <div className="px-6 pt-12 pb-4 flex justify-between items-center shrink-0 uppercase relative z-50">
                 <button onClick={onClose} className="p-2 -ml-2 text-black/40 active:scale-90 bg-white/50 rounded-full backdrop-blur-md shadow-sm"><IconX size={24} /></button>
@@ -58,7 +59,7 @@ export const LocationModalView = ({ locationCard, onClose, availableAvatars }) =
                         <div className="flex gap-2 justify-center mb-1">
                             {[1, 2, 3, 4, 5].map(s => <IconStar key={s} size={28} className={s <= locationCard?.placeRating ? "text-[#F59E0B]" : "text-black/10"} fill={s <= locationCard?.placeRating ? "currentColor" : "none"} />)}
                         </div>
-                        <p className="text-[10px] font-bold text-black/60 italic">Last visited: {locationCard?.date}</p>
+                        <p className="text-[10px] font-bold text-black/60 italic">Last visited: {formatDate(locationCard?.date)}</p>
                     </div>
                 </div>
             </div>

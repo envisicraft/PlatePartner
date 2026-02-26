@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icons } from './UiAssets';
+import { formatDate } from '../views/Shared';
 
 /**
  * Ghost Log Component - Dining Architect
@@ -21,7 +22,7 @@ const GhostLog = ({ log, onDelete, onVault }) => {
                     <span className="text-xl">{Icons.GHOST}</span>
                     <div>
                         <h4 className="font-bold text-slate-800">{log.location}</h4>
-                        <p className="text-xs text-slate-400 uppercase tracking-widest">{log.date}</p>
+                        <p className="text-xs text-slate-400 uppercase tracking-widest">{formatDate(log.date)}</p>
                     </div>
                 </div>
 

@@ -7,3 +7,4 @@ export * from './views/LoginView';
 export * from './views/YourPlateView';
 export * from './views/LocationModalView';
 export * from './views/CompareView';
+export * from './views/FilterModalView';

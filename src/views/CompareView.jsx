@@ -3,7 +3,7 @@ import { IconChevronLeft } from '../Icons';
 import { PantryCard } from './PantryCard';
 
 export const CompareView = ({ deckCards, onBack, onOpenCard, availableAvatars, onOpenMap }) => (
-    <div className="absolute inset-0 z-10 flex flex-col bg-[#E8D4A9] animate-in slide-in-from-bottom duration-[600ms] overflow-y-auto no-scrollbar pb-32" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
+    <div className="absolute inset-0 z-10 flex flex-col bg-[#E8D4A9] overflow-y-auto no-scrollbar pb-32" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
         <div className="px-6 pt-12 pb-4 flex justify-between items-center border-b border-black/5 shrink-0 uppercase sticky top-0 bg-[#E8D4A9]/90 backdrop-blur-md z-50 shadow-sm">
             <div className="flex flex-col w-full gap-3">
                 <div className="flex items-center justify-between w-full">

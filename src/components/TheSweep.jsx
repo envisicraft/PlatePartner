@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckCircle2, Trash2, X, MapPin, Clock } from 'lucide-react';
+import { formatDate } from '../views/Shared';
 
 /**
  * Project: PlatePartner - Restoration Phase (v11.1)
@@ -47,7 +48,7 @@ const TheSweep = ({ ghostLogs, onClose, onDeleteLog, onFinalizeLog }) => {
                             </div>
                             <div className="flex items-center gap-2 text-black/30">
                                 <Clock size={12} />
-                                <span className="text-[10px] font-bold uppercase tracking-widest">{log.date || 'Today'}</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest">{formatDate(log.date) || 'Today'}</span>
                             </div>
                         </div>
 

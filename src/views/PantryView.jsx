@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconMapPin, IconPencil, IconPawPrint, IconPlus, IconMicSpark, IconSearchGreen, IconX, IconCalendar, IconChevronDown, IconSparkles } from '../Icons';
 import { ChronoSection } from './ChronoSection';
-import { PROMPT_PANTRY } from './Shared';
+import { PROMPT_PANTRY, formatDate } from './Shared';
 
 export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, availableAvatars, onToggleAvatar, onAddAvatar, onOpenCalendar, pantrySearch, setPantrySearch, onOpenCard, onOpenMap, onAddNew, onOpenGhost, ghostCount, taggedIds = [], onToggleTag, onCompare }) => {
     // Optional fallback values to prevent crashes on bad state loads
@@ -16,9 +16,9 @@ export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, avail
     const stopTracking = () => { };
 
     return (
-        <div className="absolute inset-0 flex flex-col animate-in slide-in-from-right duration-[600ms] overflow-hidden">
+        <div className="absolute inset-0 flex flex-col overflow-hidden bg-[#E8D4A9]" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
             {/* FIXED HEADER SECTION */}
-            <div className="shrink-0 flex flex-col z-[100] relative bg-[#E8D4A9] shadow-[0_4px_20px_rgba(0,0,0,0.05)] border-b border-black/5" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
+            <div className="shrink-0 flex flex-col z-[100] relative bg-[#E8D4A9] border-b border-black/5" style={{ backgroundImage: `url("https://www.transparenttextures.com/patterns/natural-paper.png")`, backgroundRepeat: 'repeat' }}>
                 <div className="flex items-center justify-between px-6 pt-8 pb-2 uppercase tracking-widest">
                     <h2 className="text-4xl font-black italic tracking-tighter text-[#1A1A1A]">Plate Pantry</h2>
                     <div className="flex gap-2">
@@ -64,11 +64,10 @@ export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, avail
                         <span className="text-[10px] font-black uppercase opacity-40">Add</span>
                     </button>
                 </div>
-                {/* SEARCH BOX IS ALWAYS VISIBLE */}
                 <div className="px-6 mb-2 shrink-0">
-                    <div className="flex items-center gap-3 bg-white/40 rounded-[2.5rem] border border-black/10 p-3 inner-fold shadow-inner transition-all focus-within:bg-white/60">
-                        <textarea value={textTerm} onChange={e => setPantrySearch({ text: e.target.value, dates: [] })} placeholder={PROMPT_PANTRY} className="flex-grow bg-transparent border-none focus:ring-0 text-[13px] font-bold leading-tight h-[60px] w-full resize-none outline-none placeholder:text-black/30 pt-1" />
-                        <div className="flex flex-col gap-2 justify-center h-[60px] items-center"><IconMicSpark /><IconSearchGreen /></div>
+                    <div className="flex items-center gap-3 bg-white/40 rounded-[2.5rem] border border-black/10 py-0 pr-3 pl-10 h-[64px] inner-fold shadow-inner transition-all focus-within:bg-white/60">
+                        <textarea value={textTerm} onChange={e => setPantrySearch({ text: e.target.value, dates: [] })} placeholder={PROMPT_PANTRY} className="flex-grow bg-transparent border-none focus:ring-0 text-[13px] font-bold leading-tight h-[64px] pt-1 pb-3 w-full resize-none outline-none placeholder:text-black/30" />
+                        <div className="flex flex-col gap-2 justify-center h-[64px] items-center py-2"><IconMicSpark /><IconSearchGreen /></div>
                     </div>
                 </div>
 
@@ -82,7 +81,7 @@ export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, avail
                                 <span className="text-[#E2725B] font-black italic text-[14px]">Viewing History</span>
                                 <span className="text-black/60 font-bold text-[10px] uppercase tracking-widest">
                                     {dateFilters.length === 1
-                                        ? new Date(dateFilters[0] + 'T12:00:00Z').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+                                        ? formatDate(dateFilters[0])
                                         : `${dateFilters.length} Selected Dates`}
                                 </span>
                             </div>
@@ -90,7 +89,7 @@ export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, avail
                         </button>
                     </div>
                 ) : (
-                    <div className="flex justify-center px-6 mb-2 shrink-0 uppercase tracking-widest"><button onClick={onOpenCalendar} className="w-[240px] bg-white rounded-[1.5rem] py-2.5 border border-black/10 shadow-sm flex items-center justify-center gap-3 active:scale-95 transition-all text-[#1A1A1A]"><IconCalendar size={18} /><span className="text-[12px] font-black uppercase tracking-[0.2em]">SHOW RECENT DATES</span><IconChevronDown /></button></div>
+                    <div className="flex justify-center px-6 mb-2 shrink-0 uppercase tracking-widest"><button onClick={onOpenCalendar} className="w-[240px] bg-white rounded-[1.5rem] py-2.5 border border-black/10 shadow-sm flex items-center justify-center gap-3 active:scale-95 transition-all text-[#1A1A1A]"><IconCalendar size={18} /><span className="text-[12px] font-black uppercase tracking-[0.2em]">SHOW MORE DATES</span><IconChevronDown /></button></div>
                 )}
 
                 {taggedIds.length > 0 && (
@@ -111,7 +110,7 @@ export const PantryView = ({ heldMeals = [], bucketedMeals, activeAvatars, avail
                 {bucketedMeals.isMultiDate ? (
                     <>
                         {Object.entries(bucketedMeals.dateBuckets).map(([date, meals]) => (
-                            <ChronoSection key={date} title={`Pantry Plates found ${new Date(date + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`} meals={meals} onOpenCard={onOpenCard} availableAvatars={availableAvatars} taggedIds={taggedIds} onToggleTag={onToggleTag} />
+                            <ChronoSection key={date} title={`Pantry Plates found ${formatDate(date)}`} meals={meals} onOpenCard={onOpenCard} availableAvatars={availableAvatars} taggedIds={taggedIds} onToggleTag={onToggleTag} />
                         ))}
                     </>
                 ) : bucketedMeals.isSearch ? (
